@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  goapp:
+    build: ./go-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  djangoapp:
+    build: ./django-app
+    command: >
+      sh -c "
+            python manage.py makemigrations &&
+            python manage.py migrate &&
+            python manage.py shell -c \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'pass') if not User.objects.filter(username='admin').exists() else None\" &&
+            python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./django-app:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: trading_simulator
+      DB_USER: simulator
+      DB_PASSWORD: password
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: simulator
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: trading_simulator
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
