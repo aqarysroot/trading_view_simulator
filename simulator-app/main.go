@@ -31,7 +31,7 @@ func main() {
 
 	for range ticker.C {
 		payload := WebhookPayload{
-			StrategyID: "8UtFjxb1vnJeKFXNVqsc9Pu87wt3h1",
+			StrategyID: "BIOL-LH-10m",
 			SecretKey:  "dU5TyY6ZEgiihmT4wdHGN3j7G5kbwS",
 			Action:     randomAction(),
 			Price:      randomPrice(),
@@ -42,7 +42,7 @@ func main() {
 			panic(err)
 		}
 
-		resp, err := http.Post("http://localhost:8080/webhook", "application/json", bytes.NewBuffer(jsonData))
+		resp, err := http.Post("http://goapp:8080/webhook", "application/json", bytes.NewBuffer(jsonData))
 		if err != nil {
 			panic(err)
 		}
