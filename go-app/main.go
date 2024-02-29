@@ -19,13 +19,14 @@ type WebhookPayload struct {
 }
 
 type Trade struct {
-	StrategyID string
-	Action     string
-	OpenPrice  float64
-	ClosePrice float64
-	EntryTime  time.Time
-	ExitTime   time.Time
-	ProfitLoss float64
+	StrategyID     string
+	Action         string
+	OpenPrice      float64
+	ClosePrice     float64
+	EntryTime      time.Time
+	ExitTime       time.Time
+	ProfitLoss     float64
+	InitialBalance float64
 }
 
 type Strategy struct {
@@ -104,7 +105,7 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if payload.SecretKey != "X$#Ksecret" {
+	if payload.SecretKey != "dU5TyY6ZEgiihmT4wdHGN3j7G5kbwS" {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
@@ -136,25 +137,26 @@ func calculateTradeDetails(payload WebhookPayload) Trade {
 	pnl := (closePrice - openPrice) * 100
 
 	return Trade{
-		StrategyID: payload.StrategyID,
-		Action:     payload.Action,
-		OpenPrice:  openPrice,
-		ClosePrice: closePrice,
-		EntryTime:  entryTime,
-		ExitTime:   exitTime,
-		ProfitLoss: pnl,
+		StrategyID:     payload.StrategyID,
+		Action:         payload.Action,
+		OpenPrice:      openPrice,
+		ClosePrice:     closePrice,
+		EntryTime:      entryTime,
+		ExitTime:       exitTime,
+		ProfitLoss:     pnl,
+		InitialBalance: 1000,
 	}
 }
 
 func saveTrade(trade Trade) error {
 
-	stmt, err := db.Prepare("INSERT INTO trades (strategy_id, action, open_price, close_price, entry_time, exit_time, pnl) VALUES ($1, $2, $3, $4, $5, $6, $7)")
+	stmt, err := db.Prepare("INSERT INTO trading_strategy (strategy_id, action, open_price, close_price, entry_time, exit_time, pnl, initial_balance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(trade.StrategyID, trade.Action, trade.OpenPrice, trade.ClosePrice, trade.EntryTime, trade.ExitTime, trade.ProfitLoss)
+	_, err = stmt.Exec(trade.StrategyID, trade.Action, trade.OpenPrice, trade.ClosePrice, trade.EntryTime, trade.ExitTime, trade.ProfitLoss, trade.InitialBalance)
 	if err != nil {
 		return err
 	}

@@ -7,6 +7,14 @@ services:
     depends_on:
       - db
 
+  trading-simulator:
+    build: ./simulator-app
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+
+
   djangoapp:
     build: ./django-app
     command: >
