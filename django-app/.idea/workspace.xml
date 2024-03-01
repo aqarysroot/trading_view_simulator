@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3693399-8267-454f-ba53-8f7317879c36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trading/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/trading/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trading/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/trading/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +67,7 @@
       <updated>1709193595825</updated>
       <workItem from="1709193597011" duration="1220000" />
       <workItem from="1709197934981" duration="16000" />
-      <workItem from="1709197969616" duration="5662000" />
+      <workItem from="1709197969616" duration="5998000" />
     </task>
     <servers />
   </component>
