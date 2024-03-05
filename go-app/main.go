@@ -81,7 +81,7 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 
 func calculateTradeDetails(trade *Trade) {
 	var lastTrade Trade
-	err := db.QueryRow("SELECT strategy_id, action, quantity, direction, entry_time, open_price FROM trades WHERE strategy_id = $1 AND status = 'open' ORDER BY entry_time DESC LIMIT 1", trade.StrategyID).Scan(&lastTrade.StrategyID, &lastTrade.Action, &lastTrade.Quantity, &lastTrade.Direction, &lastTrade.EntryTime, &lastTrade.OpenPrice)
+	err := db.QueryRow("SELECT strategy_id, action, quantity, direction, entry_time, open_price FROM trading_trade; WHERE strategy_id = $1 AND status = 'open' ORDER BY entry_time DESC LIMIT 1", trade.StrategyID).Scan(&lastTrade.StrategyID, &lastTrade.Action, &lastTrade.Quantity, &lastTrade.Direction, &lastTrade.EntryTime, &lastTrade.OpenPrice)
 	if err != nil && err != sql.ErrNoRows {
 		log.Printf("Error fetching last trade: %v\n", err)
 		return
@@ -102,7 +102,7 @@ func calculateTradeDetails(trade *Trade) {
 }
 
 func saveTrade(trade Trade) error {
-	stmt, err := db.Prepare("INSERT INTO trades (strategy_id, action, quantity, direction, entry_time, exit_time, open_price, close_price, profit_loss, pnl_percent, status, initial_balance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)")
+	stmt, err := db.Prepare("INSERT INTO trading_trade (strategy_id, action, quantity, direction, entry_time, exit_time, open_price, close_price, profit_loss, pnl_percent, status, initial_balance) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)")
 	if err != nil {
 		return err
 	}
